@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎙️ مولّد السكريبتات الإعلامية الاحترافية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1e3c72;
+            border-right: 4px solid #2a5298;
+            padding-right: 15px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card.active {
+            border-color: #1e3c72;
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.1), rgba(42, 82, 152, 0.1));
+        }
+        
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .card-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .card-desc {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        
+        .badge-unesco {
+            background: #ffd700;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .badge-stories {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .duration-slider {
+            width: 100%;
+            margin: 15px 0;
+            height: 8px;
+        }
+        
+        .duration-display {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #1e3c72;
+            margin: 15px 0;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.5);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        .output {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .output.visible {
+            display: block;
+        }
+        
+        .output h2 {
+            font-size: 2em;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .output h3 {
+            font-size: 1.5em;
+            color: #2a5298;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-right: 4px solid #1e3c72;
+            padding-right: 15px;
+        }
+        
+        .script-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-right: 4px solid #1e3c72;
+        }
+        
+        .script-section h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .script-text {
+            line-height: 2;
+            font-size: 1.1em;
+            color: #333;
+            white-space: pre-wrap;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .list-items {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .list-items li {
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            border-right: 3px solid #1e3c72;
+        }
+        
+        .recommendation {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 4px solid;
+        }
+        
+        .recommendation.high {
+            border-color: #d32f2f;
+        }
+        
+        .recommendation.medium {
+            border-color: #f57c00;
+        }
+        
+        .recommendation.info {
+            border-color: #1976d2;
+        }
+        
+        .recommendation strong {
+            color: #1e3c72;
+        }
+        
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.1), rgba(42, 82, 152, 0.1));
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .score-value {
+            font-size: 3em;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+        
+        .score-rating {
+            font-size: 1.3em;
+            color: #2a5298;
+            margin-top: 10px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ مولّد السكريبتات الإعلامية الاحترافية</h1>
+            <p class="subtitle">نظام متخصص لإنتاج سكريبتات صحفية احترافية مع تحليل متقدم وتوصيات</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('generate')">
+                📝 توليد سكريبت
+            </button>
+            <button class="tab" onclick="switchTab('analyze')">
+                🔍 تحليل سكريبت
+            </button>
+        </div>
+        
+        <!-- Tab 1: توليد سكريبت -->
+        <div id="generate-tab" class="tab-content active">
+            <div class="panel">
+                <div class="section-title">🏙️ 1. اختر المدينة</div>
+                <div class="grid" id="cities-grid"></div>
+            </div>
+            
+            <div class="panel" id="landmarks-panel" style="display:none;">
+                <div class="section-title">📍 2. اختر المعلم</div>
+                <div class="grid" id="landmarks-grid"></div>
+            </div>
+            
+            <div class="panel">
+                <div class="section-title">⏱️ 3. مدة السكريبت</div>
+                <div class="duration-display" id="duration-display">120 ثانية (دقيقتان)</div>
+                <input type="range" class="duration-slider" id="duration-slider" 
+                       min="60" max="300" value="120" step="30"
+                       oninput="updateDuration(this.value)">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">قصير</div>
+                        <div class="stat-value">60ث</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">قياسي</div>
+                        <div class="stat-value">2 دقيقة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">مفصّل</div>
+                        <div class="stat-value">3 دقائق</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">شامل</div>
+                        <div class="stat-value">5 دقائق</div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    💡 السكريبتات المولّدة احترافية بحتة: موضوعية، موثقة، مدعومة بالأرقام والقصص الحقيقية
+                </div>
+            </div>
+            
+            <button class="btn" onclick="generateScript()" id="generate-btn" disabled>
+                ⚡ توليد سكريبت إعلامي احترافي
+            </button>
+        </div>
+        
+        <!-- Tab 2: تحليل سكريبت -->
+        <div id="analyze-tab" class="tab-content">
+            <div class="panel">
+                <div class="section-title">📝 الصق سكريبتك هنا للتحليل</div>
+                <textarea class="textarea" id="script-input" 
+                          placeholder="الصق النص الصحفي هنا للحصول على تحليل شامل وتوصيات احترافية..."></textarea>
+                <button class="btn" onclick="analyzeScript()">
+                    🔍 تحليل السكريبت + توصيات
+                </button>
+                
+                <div class="info-box">
+                    💡 التحليل يشمل: الأسلوب، الموضوعية، استخدام البيانات، ذكر المصادر، التقييم الشامل، والتوصيات
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p id="loading-text">جاري المعالجة...</p>
+        </div>
+        
+        <div class="output" id="output"></div>
+    </div>
+    
+    <script>
+        let selectedCity = null;
+        let selectedLandmark = null;
+        let duration = 120;
+        
+        window.addEventListener('load', loadCities);
+        
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+        
+        async function loadCities() {
+            try {
+                const response = await fetch('http://localhost:5000/api/cities');
+                const data = await response.json();
+                
+                const grid = document.getElementById('cities-grid');
+                grid.innerHTML = '';
+                
+                data.cities.forEach(city => {
+                    const card = document.createElement('div');
+                    card.className = 'city-card card';
+                    card.onclick = () => selectCity(city.id);
+                    card.innerHTML = `
+                        <div class="card-icon">${city.icon}</div>
+                        <div class="card-name">${city.name}</div>
+                        <div class="card-desc">${city.description}</div>
+                        <div style="margin-top:10px; font-size:0.85em; color:#666;">
+                            ${city.region}<br>
+                            ${city.landmarks_count} معلم
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error(error);
+                alert('تأكد من تشغيل الخادم (API)');
+            }
+        }
+        
+        async function selectCity(cityId) {
+            selectedCity = cityId;
+            selectedLandmark = null;
+            
+            document.querySelectorAll('.city-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/cities/${cityId}/landmarks`);
+                const data = await response.json();
+                
+                const grid = document.getElementById('landmarks-grid');
+                grid.innerHTML = '';
+                
+                data.landmarks.forEach(landmark => {
+                    const card = document.createElement('div');
+                    card.className = 'landmark-card card';
+                    card.onclick = () => selectLandmark(landmark.id);
+                    
+                    let badges = '';
+                    if (landmark.unesco) {
+                        badges += '<span class="badge badge-unesco">🏆 UNESCO</span> ';
+                    }
+                    if (landmark.has_stories) {
+                        badges += `<span class="badge badge-stories">📖 ${landmark.stories_count} قصص</span>`;
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-icon">${landmark.icon}</div>
+                        <div class="card-name">${landmark.name}</div>
+                        <div class="card-desc">${landmark.category}</div>
+                        <div style="margin-top:10px;">${badges}</div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                document.getElementById('landmarks-panel').style.display = 'block';
+                document.getElementById('landmarks-panel').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        
+        function selectLandmark(landmarkId) {
+            selectedLandmark = landmarkId;
+            
+            document.querySelectorAll('.landmark-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('generate-btn').disabled = false;
+        }
+        
+        function updateDuration(value) {
+            duration = parseInt(value);
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            
+            let display = '';
+            if (minutes > 0) {
+                display = `${minutes} دقيقة`;
+                if (seconds > 0) display += ` و ${seconds} ثانية`;
+            } else {
+                display = `${seconds} ثانية`;
+            }
+            
+            display += ` (~${Math.round(duration * 2.5)} كلمة)`;
+            
+            document.getElementById('duration-display').textContent = display;
+        }
+        
+        async function generateScript() {
+            if (!selectedCity || !selectedLandmark) {
+                alert('اختر المدينة والمعلم');
+                return;
+            }
+            
+            const loading = document.getElementById('loading');
+            const output = document.getElementById('output');
+            
+            loading.classList.add('active');
+            output.classList.remove('visible');
+            document.getElementById('loading-text').textContent = 'جاري توليد السكريبت الإعلامي...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        city: selectedCity,
+                        landmark: selectedLandmark,
+                        duration: duration
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayScript(data.script);
+                } else {
+                    alert('حدث خطأ: ' + data.error);
+                }
+                
+            } catch (error) {
+                alert('تأكد من تشغيل الخادم');
+                console.error(error);
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+        
+        function displayScript(script) {
+            const output = document.getElementById('output');
+            
+            let html = `
+                <h2>📰 ${script.title}</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${script.word_count}</div>
+                        <div class="stat-label">كلمة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${script.duration_seconds}ث</div>
+                        <div class="stat-label">مدة البث</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${script.estimated_reading_time}</div>
+                        <div class="stat-label">وقت القراءة</div>
+                    </div>
+                </div>
+                
+                <h3>📝 السكريبت الكامل</h3>
+            `;
+            
+            // عرض الأقسام
+            script.sections.forEach(section => {
+                html += `
+                    <div class="script-section">
+                        <h4>${section.title}</h4>
+                        <div class="script-text">${section.content}</div>
+                    </div>
+                `;
+            });
+            
+            // الأسئلة الميدانية
+            if (script.field_questions && script.field_questions.length > 0) {
+                html += `
+                    <h3>❓ أسئلة ميدانية مقترحة</h3>
+                    <ul class="list-items">
+                        ${script.field_questions.map(q => `<li>${q}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // التنبيهات الثقافية
+            if (script.cultural_notes && script.cultural_notes.length > 0) {
+                html += `
+                    <h3>⚠️ ملاحظات للصحفيين الميدانيين</h3>
+                    <ul class="list-items">
+                        ${script.cultural_notes.map(n => `<li>${n}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // الزوايا الصحفية
+            if (script.journalist_angles && script.journalist_angles.length > 0) {
+                html += `
+                    <h3>📐 زوايا صحفية مقترحة</h3>
+                    <ul class="list-items">
+                        ${script.journalist_angles.map(a => `<li>${a}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // المصادر
+            if (script.references && script.references.length > 0) {
+                html += `
+                    <h3>📚 المصادر والمراجع</h3>
+                    <ul class="list-items">
+                        ${script.references.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            output.innerHTML = html;
+            output.classList.add('visible');
+            output.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        async function analyzeScript() {
+            const scriptText = document.getElementById('script-input').value.trim();
+            
+            if (!scriptText) {
+                alert('الصق سكريبت للتحليل');
+                return;
+            }
+            
+            const loading = document.getElementById('loading');
+            const output = document.getElementById('output');
+            
+            loading.classList.add('active');
+            output.classList.remove('visible');
+            document.getElementById('loading-text').textContent = 'جاري التحليل المتقدم...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ script: scriptText })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayAnalysis(data.analysis);
+                } else {
+                    alert('حدث خطأ: ' + data.error);
+                }
+                
+            } catch (error) {
+                alert('تأكد من تشغيل الخادم');
+                console.error(error);
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+        
+        function displayAnalysis(analysis) {
+            const output = document.getElementById('output');
+            
+            const score = analysis.overall_score;
+            
+            let html = `
+                <h2>🔍 نتائج التحليل المتقدم</h2>
+                
+                <div class="score-display">
+                    <div class="score-value">${score.score}/${score.max_score}</div>
+                    <div class="score-rating">${score.rating}</div>
+                </div>
+                
+                <h3>📊 التحليل الأساسي</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.word_count}</div>
+                        <div class="stat-label">كلمة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.sentence_count}</div>
+                        <div class="stat-label">جملة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.paragraph_count}</div>
+                        <div class="stat-label">فقرة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.avg_sentence_length}</div>
+                        <div class="stat-label">متوسط طول الجملة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.reading_time_minutes} دقيقة</div>
+                        <div class="stat-label">وقت القراءة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${analysis.basic.broadcast_time_seconds}ث</div>
+                        <div class="stat-label">وقت البث</div>
+                    </div>
+                </div>
+                
+                <h3>✍️ تحليل الأسلوب</h3>
+                <div class="script-section">
+                    <p><strong>نوع الأسلوب:</strong> ${analysis.style.style_type}</p>
+                    <p><strong>النبرة:</strong> ${analysis.style.tone}</p>
+                    <p><strong>الموضوعية:</strong> ${analysis.style.objectivity}</p>
+                    <p><strong>استخدام البيانات:</strong> ${analysis.style.uses_data ? 'نعم (' + analysis.style.numbers_count + ' رقم)' : 'لا'}</p>
+                    <p><strong>ذكر التواريخ:</strong> ${analysis.style.has_dates ? 'نعم' : 'لا'}</p>
+                    <p><strong>منظم في فقرات:</strong> ${analysis.style.well_structured ? 'نعم' : 'لا'}</p>
+                </div>
+                
+                <h3>📝 تحليل المحتوى</h3>
+                <div class="script-section">
+                    <p><strong>الموضوعات المغطاة:</strong> ${analysis.content.topics_covered.join(', ') || 'غير محددة'}</p>
+                    <p><strong>اقتباسات:</strong> ${analysis.content.has_quotes ? 'موجودة' : 'غير موجودة'}</p>
+                    <p><strong>ذكر مصادر:</strong> ${analysis.content.mentions_sources ? 'نعم' : 'لا'}</p>
+                    <p><strong>التنوع اللغوي:</strong> ${Math.round(analysis.content.diversity_score * 100)}%</p>
+                </div>
+                
+                <h3>💡 التوصيات الاحترافية</h3>
+            `;
+            
+            analysis.recommendations.forEach(rec => {
+                const priorityClass = rec.priority === 'عالية' ? 'high' : rec.priority === 'متوسطة' ? 'medium' : 'info';
+                html += `
+                    <div class="recommendation ${priorityClass}">
+                        <p><strong>${rec.type}</strong> [${rec.priority}]</p>
+                        <p style="margin:5px 0;"><em>المشكلة:</em> ${rec.issue}</p>
+                        <p><em>الحل:</em> ${rec.suggestion}</p>
+                    </div>
+                `;
+            });
+            
+            output.innerHTML = html;
+            output.classList.add('visible');
+            output.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
